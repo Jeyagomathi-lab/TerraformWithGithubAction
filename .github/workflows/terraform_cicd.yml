@@ -1,9 +1,7 @@
 name: terraform testing using github
 on:
   push:
-    branches: [ dev ]
-  pull_request:
-    branches: [ main ]
+    branches: [ dev, main ]
 jobs:
   terraform_checks:
     runs-on: ubuntu-latest
@@ -21,11 +19,14 @@ jobs:
           aws-region: 'ap-south-1'
       - name: run terraform init
         run: terraform init
-        
+
       - name: run terraform format
         run: terraform fmt -check
       - name: run terraform validate
         run: terraform validate
-      - name: run terraform plan
-        if: github.event_name == 'push'
+      - name: run terraform plan is push request for dev
+        if: github.event_name == 'push' && github.ref == 'dev'
         run: terraform plan
+      - name: run terraform apply if push request for main
+        if: github.event_name == 'push' && github.ref == 'main'
+        run: terraform apply
