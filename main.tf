@@ -11,5 +11,5 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "github_bucket" {
-  bucket = "github_bucktet"
+  bucket = "githubbucktet0809123"
 }
