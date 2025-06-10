@@ -1,0 +1,28 @@
+name: terraform testing using github
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  terraform_checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: setup terraform env
+        uses: hasicorp/setup-terraform@v2
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-secret-key-id: ${{ secret.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secret.AWS_SECRET_KEY }}
+      - name: run terraform init
+        run: terraform init
+      - name: run terraform format
+        run: terraform fmt -check
+      - name: run terraform validate
+        run: terraform validate
+      - name: run terraform plan
+        if: github.event_name == 'push'
+        run: terraform plan
