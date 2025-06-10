@@ -15,8 +15,8 @@ jobs:
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          aws-secret-key-id: ${{ secret.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secret.AWS_SECRET_KEY }}
+          aws-secret-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
       - name: run terraform init
         run: terraform init
       - name: run terraform format
