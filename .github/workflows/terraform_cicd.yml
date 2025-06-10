@@ -25,8 +25,8 @@ jobs:
       - name: run terraform validate
         run: terraform validate
       - name: run terraform plan is push request for dev
-        if: github.event_name == 'push' && github.ref == 'dev'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
         run: terraform plan
       - name: run terraform apply if push request for main
-        if: github.event_name == 'push' && github.ref == 'main'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: terraform apply
