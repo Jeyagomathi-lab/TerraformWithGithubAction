@@ -21,6 +21,7 @@ jobs:
           aws-region: 'ap-south-1'
       - name: run terraform init
         run: terraform init
+        
       - name: run terraform format
         run: terraform fmt -check
       - name: run terraform validate
