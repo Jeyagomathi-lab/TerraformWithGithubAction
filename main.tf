@@ -1,4 +1,12 @@
 terraform {
+  backend "s3" {
+    bucket       = "terraform-state-jeyagomathi-dev"
+    key          = "dev/terraform.tfstate"
+    use_lockfile = true
+    encrypt      = true
+    region       = "ap-south-1"
+  }
+
   required_providers {
     aws = {
       source = "hashicorp/aws"
@@ -11,5 +19,5 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "github_bucket" {
-  bucket = "githubbucktet0809123"
+  bucket = "github-demo-cicd"
 }
