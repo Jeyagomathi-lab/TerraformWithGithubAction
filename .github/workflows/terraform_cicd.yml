@@ -8,8 +8,11 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+
       - name: setup terraform env
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version:  1.12.1
         
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -17,16 +20,20 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: 'ap-south-1'
+
       - name: run terraform init
         run: terraform init
 
       - name: run terraform format
         run: terraform fmt -check
+
       - name: run terraform validate
         run: terraform validate
+
       - name: run terraform plan is push request for dev
         if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
         run: terraform plan
+        
       - name: run terraform apply if push request for main
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: terraform apply -auto-approve
